@@ -1,0 +1,14 @@
+FindComponents
+This is a project using and adding to my Graph ADT from my FindParts 
+project.  This project will find the strongly connected components of
+a directional graph.
+
+I have worked on this project for about: 1.5 hours
+thus far. 
+
+Graph.c and Graph.h
+I will use my previously made Graph ADT and add on to it. I am adding a 
+transpose function, a copyGraph function and a Depth First Search function.
+
+FindComponents.c
+Finds the strongly connected components of a Graph.
