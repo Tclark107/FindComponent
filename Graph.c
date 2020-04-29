@@ -281,30 +281,49 @@ void BFS(Graph G, int s) {
 
 // Visit()
 // Recursively processes visited vertices.
-void Visit(Graph G, List S, int x, int time) {
+int Visit(Graph G, List S, int x, int time) {
    int y;
    G->discover[x] = ++time;
+   //printf("The discover time of vertex %d is %d\n",x,G->discover[x]);
    G->color[x] = GRAY;
-   moveFront(G->adj[x]);
-   while(index(G->adj[x])!=-1) {
-      y = get(G->adj[x]);
-      if(G->color[y] == WHITE) {
-         G->parent[y] = x;
-         Visit(G,S,y,time);
+   if(length(G->adj[x])>0) {
+      moveFront(G->adj[x]);
+      while(index(G->adj[x])!=-1) {
+         y = get(G->adj[x]);
+         if(G->color[y] == WHITE) {
+            G->parent[y] = x;
+            time = Visit(G,S,y,time);
+         }
+         moveNext(G->adj[x]);
       }
-      moveNext(G->adj[x]);
    }
    G->color[x] = BLACK;
    G->finish[x] = ++time;
+   //printf("The finish time 2 of vertex %d is %d\n",x,G->finish[x]);
+   moveFront(S);
+   while(index(S)!=-1) {
+      if(get(S)==x) {
+         delete(S);
+         break;
+      }
+      moveNext(S);
+   }
    prepend(S,x);
+   return time;
 }
 
 // void DFS()
 // DFS algorithm.
 void DFS(Graph G, List S) {
+   
    int time = 0;
-   for(int x=1;x<=G->order;++x) {
-      if(G->color[x]==WHITE) Visit(G,S,x,time);
+   moveFront(S);
+   while(index(S)!=-1) {
+      int x = get(S);
+      if(G->color[x]==WHITE) {
+         time = Visit(G,S,x,time);
+      }
+      moveNext(S);
    }
 }
 
