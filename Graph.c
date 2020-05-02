@@ -315,11 +315,10 @@ int Visit(Graph G, List S, int x, int time) {
 // void DFS()
 // DFS algorithm.
 void DFS(Graph G, List S) {
-   
-   int time = 0;
+   int x,time = 0;
    moveFront(S);
    while(index(S)!=-1) {
-      int x = get(S);
+      x = get(S);
       if(G->color[x]==WHITE) {
          time = Visit(G,S,x,time);
       }
