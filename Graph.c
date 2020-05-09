@@ -61,6 +61,8 @@ Graph newGraph(int n) {
    //G->source = NIL;
 
    for(int i=1;i<=n; i++){
+      G->discover[i] = UNDEF;
+      G->finish[i] = UNDEF;
       G->adj[i] = newList();
       G->parent[i] = NIL;
       //G->distance[i] = INF;
@@ -116,7 +118,7 @@ int getParent(Graph G, int u) {
 // Pre: 1<=u<=n=GetOrder(G)
 int getDiscover(Graph G, int u) {
    if(u < 1 || u > getOrder(G)) {
-      printf("getParent() called on a vertex out of bounds\n");
+      printf("getDiscover() called on a vertex out of bounds\n");
       exit(1);
    }
    return G->discover[u];
@@ -128,7 +130,7 @@ int getDiscover(Graph G, int u) {
 // Pre: 1<=u<=n=GetOrder(G)
 int getFinish(Graph G, int u) {
    if(u < 1 || u > getOrder(G)) {
-      printf("getParent() called on a vertex out of bounds\n");
+      printf("getFinish() called on a vertex out of bounds\n");
       exit(1);
    }
    return G->finish[u];
@@ -284,7 +286,6 @@ void BFS(Graph G, int s) {
 int Visit(Graph G, List S, int x, int time) {
    int y;
    G->discover[x] = ++time;
-   //printf("The discover time of vertex %d is %d\n",x,G->discover[x]);
    G->color[x] = GRAY;
    if(length(G->adj[x])>0) {
       moveFront(G->adj[x]);
@@ -299,7 +300,6 @@ int Visit(Graph G, List S, int x, int time) {
    }
    G->color[x] = BLACK;
    G->finish[x] = ++time;
-   //printf("The finish time 2 of vertex %d is %d\n",x,G->finish[x]);
    moveFront(S);
    while(index(S)!=-1) {
       if(get(S)==x) {
@@ -315,7 +315,11 @@ int Visit(Graph G, List S, int x, int time) {
 // void DFS()
 // DFS algorithm.
 void DFS(Graph G, List S) {
+   for(int i=1;i<=G->order;++i) G->color[i]=WHITE;
+
    int x,time = 0;
+   printList(stdout,S);
+   printf("\n");
    moveFront(S);
    while(index(S)!=-1) {
       x = get(S);
